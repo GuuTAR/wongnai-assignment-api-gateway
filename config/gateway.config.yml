@@ -7,10 +7,13 @@ apiEndpoints:
   api:
     host: localhost
     paths: '/ip'
+  trip:
+    host: localhost
+    paths: '/api/trips'
 serviceEndpoints:
   httpbin:
     url: 'https://httpbin.org'
-  tripservice
+  tripservice:
     url: 'http://localhost:9000/trips'
 policies:
   - basic-auth
@@ -32,3 +35,12 @@ pipelines:
           - action:
               serviceEndpoint: httpbin 
               changeOrigin: true
+  default-1:
+    apiEndpoints:
+      - trip
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: tripservice 
+              changeOrigin: true
+        
